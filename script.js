@@ -57,7 +57,7 @@ function guardarEstado() {
   const estado = {};
   ramos.forEach(r => {
     const texto = r.textContent.replace(/^✔️\s*/, "").trim();
-    if (!r.classList.contains("vacio") && texto !== "") {
+    if (!r.classList.contains("") && texto !== "") {
       estado[texto] = r.classList.contains("aprobado");
     }
   });
