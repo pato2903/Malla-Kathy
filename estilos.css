@@ -1,16 +1,16 @@
 body {
   font-family: Arial, sans-serif;
-  background-color: #f7f0ff;
   margin: 0;
   padding: 0;
+  background-color: #f7f0ff;
   color: #2e003e;
 }
 
 header {
   background-color: #5c2d91;
   color: white;
+  padding: 1.5rem;
   text-align: center;
-  padding: 1.5rem 0;
 }
 
 #malla-container {
@@ -26,39 +26,47 @@ header {
   border: 2px solid #cba7ff;
   border-radius: 12px;
   padding: 1rem;
-  width: 270px;
-  box-shadow: 0 4px 10px rgba(92, 45, 145, 0.2);
+  width: 280px;
+  box-shadow: 0 4px 8px rgba(92, 45, 145, 0.2);
   transition: transform 0.2s;
 }
 
 .semestre:hover {
-  transform: translateY(-5px);
+  transform: scale(1.01);
 }
 
 .semestre h2 {
   text-align: center;
   color: #5c2d91;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
 }
 
 .ramo {
-  background-color: #e8d6ff;
-  margin: 0.4rem 0;
-  padding: 0.6rem;
+  background-color: #d9b3ff;
+  margin: 0.5rem 0;
+  padding: 0.7rem;
   border-radius: 8px;
   cursor: pointer;
   text-align: center;
-  transition: background-color 0.3s, color 0.3s;
   font-weight: bold;
+  color: #2e003e;
+  transition: all 0.3s ease;
 }
 
 .ramo.aprobado {
-  background-color: #c79aff;
-  color: white;
+  background-color: #5c2d91;
+  color: #ffffff;
 }
 
-.ramo:hover {
-  background-color: #d5aaff;
+.ramo.vacio {
+  background-color: #eee;
+  color: #888;
+  cursor: default;
+}
+
+.ramo:hover:not(.vacio) {
+  background-color: #b266ff;
 }
 
 .acciones {
@@ -66,20 +74,35 @@ header {
   padding: 2rem;
 }
 
-.acciones button,
-.acciones input[type="file"] {
+button,
+.file-label {
   background-color: #5c2d91;
   color: white;
   border: none;
-  padding: 0.7rem 1.5rem;
-  border-radius: 8px;
+  padding: 0.8rem 1.4rem;
   margin: 0.5rem;
-  cursor: pointer;
+  border-radius: 8px;
   font-size: 1rem;
+  cursor: pointer;
 }
 
-.acciones button:hover,
-.acciones input[type="file"]:hover {
+button:hover,
+.file-label:hover {
   background-color: #7a43bf;
 }
 
+.file-label {
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+}
+
+.file-label input[type=\"file\"] {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
