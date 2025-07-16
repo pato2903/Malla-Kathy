@@ -96,3 +96,4 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("exportar").addEventListener("click", exportarMalla);
   document.getElementById("importar").addEventListener("change", importarMalla);
 });
+
