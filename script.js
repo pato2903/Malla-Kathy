@@ -1,1 +1,79 @@
+const malla = [
+  ["Inglés I", "Introducción a Nutrición y Dietética", "Ciencias de los Alimentos", "Biología Celular", "Introducción a la Salud Comunitaria", "Química"],
+  ["Inglés II", "Comunicación en Salud Comunitaria", "Técnicas Dietéticas Aplicadas", "Microbiología y Parasitología", "Morfología y Función", "Bioquímica"],
+  ["Ética en Salud Comunitaria", "Gastronomía Aplicada a la Nutrición", "Inocuidad y Análisis Alimentario", "Nutrición Básica", "Fisiología General", "Introducción al Análisis de Datos"],
+  ["Dietética I", "Ejercicio y Salud", "Tecnología y Marketing de los Alimentos", "Fisiopatología", "Epidemiología", "Promoción de Salud en Comunidad"],
+  ["Dietética II", "Evaluación del Estado Nutricional I", "Bases Fisiológicas del Deporte", "Salud Pública y Salud Comunitaria", "Farmacología", "Prácticas Integradas I"],
+  ["Cineantropometría", "Evaluación del Estado Nutricional II", "Dietoterapia del Adulto y Adulto Mayor", "Gestión Alimentaria", "Proyectos en Salud Comunitaria", "Prácticas Integradas II"],
+  ["Metodología de Investigación", "Nutrición Deportiva", "Dietoterapia Materno-Infantil", "Administración de Servicios de Alimentación", "Implementos de Proyectos en Salud Comunitaria", "Prácticas Integradas III"],
+  ["Innovación y Emprendimiento", "Atención Primaria y Salud Familiar", "Seminario de Investigación", "Tendencias en Apoyo Nutricional", "Herramientas Educativas en Salud", "Prácticas Integradas IV"],
+  ["Vacío", "Vacío", "Vacío", "Vacío", "Práctica Profesional I", "Práctica Profesional II"],
+  ["Vacío", "Vacío", "Vacío", "Vacío", "Práctica Profesional III", "Práctica Profesional IV"]
+];
+
+function renderMalla() {
+  const container = document.getElementById("malla-container");
+  malla.forEach((semestreRamos, index) => {
+    const semestreDiv = document.createElement("div");
+    semestreDiv.classList.add("semestre");
+
+    const titulo = document.createElement("h2");
+    titulo.textContent = `${index + 1}° Semestre`;
+    semestreDiv.appendChild(titulo);
+
+    semestreRamos.forEach(ramo => {
+      const ramoDiv = document.createElement("div");
+      ramoDiv.classList.add("ramo");
+      ramoDiv.textContent = ramo;
+      ramoDiv.addEventListener("click", () => {
+        ramoDiv.classList.toggle("aprobado");
+      });
+      semestreDiv.appendChild(ramoDiv);
+    });
+
+    container.appendChild(semestreDiv);
+  });
+}
+
+function exportarMalla() {
+  const ramos = document.querySelectorAll(".ramo");
+  const estado = Array.from(ramos).map(r => ({
+    nombre: r.textContent,
+    aprobado: r.classList.contains("aprobado")
+  }));
+  const blob = new Blob([JSON.stringify(estado)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "malla.json";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+function importarMalla(event) {
+  const archivo = event.target.files[0];
+  if (!archivo) return;
+  const lector = new FileReader();
+  lector.onload = function(e) {
+    const datos = JSON.parse(e.target.result);
+    const ramos = document.querySelectorAll(".ramo");
+    datos.forEach((ramoImportado, i) => {
+      if (ramos[i] && ramoImportado.nombre === ramos[i].textContent) {
+        if (ramoImportado.aprobado) {
+          ramos[i].classList.add("aprobado");
+        } else {
+          ramos[i].classList.remove("aprobado");
+        }
+      }
+    });
+  };
+  lector.readAsText(archivo);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  renderMalla();
+  document.getElementById("exportar").addEventListener("click", exportarMalla);
+  document.getElementById("importar").addEventListener("change", importarMalla);
+});
 
