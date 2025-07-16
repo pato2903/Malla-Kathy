@@ -13,25 +13,32 @@ const malla = [
 
 function renderMalla() {
   const container = document.getElementById("malla-container");
-  malla.forEach((semestreRamos, index) => {
-    const semestreDiv = document.createElement("div");
-    semestreDiv.classList.add("semestre");
+  malla.forEach((ramos, i) => {
+    const semDiv = document.createElement("div");
+    semDiv.classList.add("semestre");
 
-    const titulo = document.createElement("h2");
-    titulo.textContent = `${index + 1}° Semestre`;
-    semestreDiv.appendChild(titulo);
+    const title = document.createElement("h2");
+    title.textContent = `${i + 1}° Semestre`;
+    semDiv.appendChild(title);
 
-    semestreRamos.forEach(ramo => {
-      const ramoDiv = document.createElement("div");
-      ramoDiv.classList.add("ramo");
-      ramoDiv.textContent = ramo;
-      ramoDiv.addEventListener("click", () => {
-        ramoDiv.classList.toggle("aprobado");
-      });
-      semestreDiv.appendChild(ramoDiv);
+    ramos.forEach(nombre => {
+      const div = document.createElement("div");
+      div.classList.add("ramo");
+      if (nombre.toLowerCase() === "vacío") {
+        div.classList.add("vacio");
+      }
+      div.textContent = nombre;
+
+      if (!div.classList.contains("vacio")) {
+        div.addEventListener("click", () => {
+          div.classList.toggle("aprobado");
+        });
+      }
+
+      semDiv.appendChild(div);
     });
 
-    container.appendChild(semestreDiv);
+    container.appendChild(semDiv);
   });
 }
 
@@ -55,7 +62,7 @@ function importarMalla(event) {
   const archivo = event.target.files[0];
   if (!archivo) return;
   const lector = new FileReader();
-  lector.onload = function(e) {
+  lector.onload = function (e) {
     const datos = JSON.parse(e.target.result);
     const ramos = document.querySelectorAll(".ramo");
     datos.forEach((ramoImportado, i) => {
@@ -76,4 +83,3 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("exportar").addEventListener("click", exportarMalla);
   document.getElementById("importar").addEventListener("change", importarMalla);
 });
-
