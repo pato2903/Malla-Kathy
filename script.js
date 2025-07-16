@@ -13,7 +13,7 @@ const malla = [
 
 function renderMalla() {
   const container = document.getElementById("malla-container");
-  const estadoGuardado = JSON.parse(localStorage.getItem("estadoMalla")) || [];
+  const estadoGuardado = JSON.parse(localStorage.getItem("estadoMalla") || "{}");
 
   malla.forEach((ramos, i) => {
     const semDiv = document.createElement("div");
@@ -23,28 +23,25 @@ function renderMalla() {
     title.textContent = `${i + 1}° Semestre`;
     semDiv.appendChild(title);
 
-    ramos.forEach((nombre, j) => {
+    ramos.forEach(nombre => {
       const div = document.createElement("div");
       div.classList.add("ramo");
 
       const isVacio = nombre.trim().toUpperCase() === "VACÍO";
-
       if (isVacio) {
         div.classList.add("vacio");
         div.innerHTML = "&nbsp;";
       } else {
-        const index = i * 6 + j;
-        const aprobado = estadoGuardado[index]?.aprobado;
-
+        const aprobado = estadoGuardado[nombre];
         div.textContent = aprobado ? `✔️ ${nombre}` : nombre;
         if (aprobado) div.classList.add("aprobado");
 
         div.addEventListener("click", () => {
           div.classList.toggle("aprobado");
-          const estaAprobado = div.classList.contains("aprobado");
-          div.innerHTML = estaAprobado ? `✔️ ${nombre}` : nombre;
+          const aprobado = div.classList.contains("aprobado");
+          div.innerHTML = aprobado ? `✔️ ${nombre}` : nombre;
 
-          guardarEstado(); // actualiza en localStorage
+          guardarEstado(); // actualiza localStorage
         });
       }
 
@@ -57,18 +54,18 @@ function renderMalla() {
 
 function guardarEstado() {
   const ramos = document.querySelectorAll(".ramo");
-  const estado = Array.from(ramos).map(r => {
-    const nombre = r.textContent.replace(/^✔️\\s*/, "").trim();
-    return {
-      nombre,
-      aprobado: r.classList.contains("aprobado")
-    };
+  const estado = {};
+  ramos.forEach(r => {
+    const texto = r.textContent.replace(/^✔️\s*/, "").trim();
+    if (!r.classList.contains("vacio") && texto !== "") {
+      estado[texto] = r.classList.contains("aprobado");
+    }
   });
   localStorage.setItem("estadoMalla", JSON.stringify(estado));
 }
 
 function exportarMalla() {
-  guardarEstado(); // asegura exportar lo actual
+  guardarEstado();
   const estado = localStorage.getItem("estadoMalla");
   const blob = new Blob([estado], { type: "application/json" });
   const url = URL.createObjectURL(blob);
@@ -86,7 +83,7 @@ function importarMalla(event) {
   const lector = new FileReader();
   lector.onload = function (e) {
     localStorage.setItem("estadoMalla", e.target.result);
-    location.reload(); // recarga la página para aplicar el nuevo estado
+    location.reload(); // aplica los cambios recargando
   };
   lector.readAsText(archivo);
 }
@@ -96,4 +93,3 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("exportar").addEventListener("click", exportarMalla);
   document.getElementById("importar").addEventListener("change", importarMalla);
 });
-
