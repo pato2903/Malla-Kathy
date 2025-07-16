@@ -24,17 +24,23 @@ function renderMalla() {
     ramos.forEach(nombre => {
       const div = document.createElement("div");
       div.classList.add("ramo");
-      if (nombre.toLowerCase() === "vacío") {
+      const isVacio = nombre.toLowerCase() === "vacío";
+      if (isVacio) {
         div.classList.add("vacio");
-      }
-      div.textContent = nombre;
-
-      if (!div.classList.contains("vacio")) {
+        div.textContent = ""; // Sin texto visible
+      } else {
+        div.textContent = nombre;
         div.addEventListener("click", () => {
           div.classList.toggle("aprobado");
+          if (div.classList.contains("aprobado")) {
+            if (!div.textContent.includes("✔")) {
+              div.textContent = `✔ ${nombre}`;
+            }
+          } else {
+            div.textContent = nombre;
+          }
         });
       }
-
       semDiv.appendChild(div);
     });
 
@@ -44,10 +50,13 @@ function renderMalla() {
 
 function exportarMalla() {
   const ramos = document.querySelectorAll(".ramo");
-  const estado = Array.from(ramos).map(r => ({
-    nombre: r.textContent,
-    aprobado: r.classList.contains("aprobado")
-  }));
+  const estado = Array.from(ramos).map(r => {
+    let nombre = r.textContent.replace(/^✔\s*/, "");
+    return {
+      nombre: nombre,
+      aprobado: r.classList.contains("aprobado")
+    };
+  });
   const blob = new Blob([JSON.stringify(estado)], { type: "application/json" });
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
@@ -66,11 +75,13 @@ function importarMalla(event) {
     const datos = JSON.parse(e.target.result);
     const ramos = document.querySelectorAll(".ramo");
     datos.forEach((ramoImportado, i) => {
-      if (ramos[i] && ramoImportado.nombre === ramos[i].textContent) {
+      if (ramos[i] && !ramos[i].classList.contains("vacio")) {
         if (ramoImportado.aprobado) {
           ramos[i].classList.add("aprobado");
+          ramos[i].textContent = `✔ ${ramoImportado.nombre}`;
         } else {
           ramos[i].classList.remove("aprobado");
+          ramos[i].textContent = ramoImportado.nombre;
         }
       }
     });
