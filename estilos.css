@@ -1,1 +1,85 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f7f0ff;
+  margin: 0;
+  padding: 0;
+  color: #2e003e;
+}
+
+header {
+  background-color: #5c2d91;
+  color: white;
+  text-align: center;
+  padding: 1.5rem 0;
+}
+
+#malla-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 2rem;
+  gap: 2rem;
+}
+
+.semestre {
+  background-color: white;
+  border: 2px solid #cba7ff;
+  border-radius: 12px;
+  padding: 1rem;
+  width: 270px;
+  box-shadow: 0 4px 10px rgba(92, 45, 145, 0.2);
+  transition: transform 0.2s;
+}
+
+.semestre:hover {
+  transform: translateY(-5px);
+}
+
+.semestre h2 {
+  text-align: center;
+  color: #5c2d91;
+  font-size: 1.2rem;
+}
+
+.ramo {
+  background-color: #e8d6ff;
+  margin: 0.4rem 0;
+  padding: 0.6rem;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s, color 0.3s;
+  font-weight: bold;
+}
+
+.ramo.aprobado {
+  background-color: #c79aff;
+  color: white;
+}
+
+.ramo:hover {
+  background-color: #d5aaff;
+}
+
+.acciones {
+  text-align: center;
+  padding: 2rem;
+}
+
+.acciones button,
+.acciones input[type="file"] {
+  background-color: #5c2d91;
+  color: white;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: 8px;
+  margin: 0.5rem;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.acciones button:hover,
+.acciones input[type="file"]:hover {
+  background-color: #7a43bf;
+}
 
