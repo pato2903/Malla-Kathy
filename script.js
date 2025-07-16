@@ -7,8 +7,8 @@ const malla = [
   ["Cineantropometría", "Evaluación del Estado Nutricional II", "Dietoterapia del Adulto y Adulto Mayor", "Gestión Alimentaria", "Proyectos en Salud Comunitaria", "Prácticas Integradas II"],
   ["Metodología de Investigación", "Nutrición Deportiva", "Dietoterapia Materno-Infantil", "Administración de Servicios de Alimentación", "Implementos de Proyectos en Salud Comunitaria", "Prácticas Integradas III"],
   ["Innovación y Emprendimiento", "Atención Primaria y Salud Familiar", "Seminario de Investigación", "Tendencias en Apoyo Nutricional", "Herramientas Educativas en Salud", "Prácticas Integradas IV"],
-  ["Vacío", "Vacío", "Vacío", "Vacío", "Práctica Profesional I", "Práctica Profesional II"],
-  ["Vacío", "Vacío", "Vacío", "Vacío", "Práctica Profesional III", "Práctica Profesional IV"]
+  ["VACÍO", "VACÍO", "VACÍO", "VACÍO", "Práctica Profesional I", "Práctica Profesional II"],
+  ["VACÍO", "VACÍO", "VACÍO", "VACÍO", "Práctica Profesional III", "Práctica Profesional IV"]
 ];
 
 function renderMalla() {
@@ -24,23 +24,24 @@ function renderMalla() {
     ramos.forEach(nombre => {
       const div = document.createElement("div");
       div.classList.add("ramo");
-      const isVacio = nombre.toLowerCase() === "vacío";
+
+      const isVacio = nombre.trim().toUpperCase() === "VACÍO";
+
       if (isVacio) {
         div.classList.add("vacio");
-        div.textContent = ""; // Sin texto visible
+        div.innerHTML = "&nbsp;"; // solo espacio en blanco para mantener tamaño
       } else {
         div.textContent = nombre;
         div.addEventListener("click", () => {
           div.classList.toggle("aprobado");
           if (div.classList.contains("aprobado")) {
-            if (!div.textContent.includes("✔")) {
-              div.textContent = `✔ ${nombre}`;
-            }
+            div.innerHTML = `✔️ ${nombre}`;
           } else {
             div.textContent = nombre;
           }
         });
       }
+
       semDiv.appendChild(div);
     });
 
@@ -51,9 +52,9 @@ function renderMalla() {
 function exportarMalla() {
   const ramos = document.querySelectorAll(".ramo");
   const estado = Array.from(ramos).map(r => {
-    let nombre = r.textContent.replace(/^✔\s*/, "");
+    const nombre = r.textContent.replace(/^✔️\\s*/, "").trim();
     return {
-      nombre: nombre,
+      nombre,
       aprobado: r.classList.contains("aprobado")
     };
   });
@@ -75,13 +76,14 @@ function importarMalla(event) {
     const datos = JSON.parse(e.target.result);
     const ramos = document.querySelectorAll(".ramo");
     datos.forEach((ramoImportado, i) => {
-      if (ramos[i] && !ramos[i].classList.contains("vacio")) {
+      const div = ramos[i];
+      if (div && !div.classList.contains("vacio")) {
         if (ramoImportado.aprobado) {
-          ramos[i].classList.add("aprobado");
-          ramos[i].textContent = `✔ ${ramoImportado.nombre}`;
+          div.classList.add("aprobado");
+          div.innerHTML = `✔️ ${ramoImportado.nombre}`;
         } else {
-          ramos[i].classList.remove("aprobado");
-          ramos[i].textContent = ramoImportado.nombre;
+          div.classList.remove("aprobado");
+          div.textContent = ramoImportado.nombre;
         }
       }
     });
