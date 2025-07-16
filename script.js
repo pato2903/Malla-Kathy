@@ -7,8 +7,8 @@ const malla = [
   ["Cineantropometría", "Evaluación del Estado Nutricional II", "Dietoterapia del Adulto y Adulto Mayor", "Gestión Alimentaria", "Proyectos en Salud Comunitaria", "Prácticas Integradas II"],
   ["Metodología de Investigación", "Nutrición Deportiva", "Dietoterapia Materno-Infantil", "Administración de Servicios de Alimentación", "Implementos de Proyectos en Salud Comunitaria", "Prácticas Integradas III"],
   ["Innovación y Emprendimiento", "Atención Primaria y Salud Familiar", "Seminario de Investigación", "Tendencias en Apoyo Nutricional", "Herramientas Educativas en Salud", "Prácticas Integradas IV"],
-  ["VACÍO", "VACÍO", "VACÍO", "VACÍO", "Práctica Profesional I", "Práctica Profesional II"],
-  ["VACÍO", "VACÍO", "VACÍO", "VACÍO", "Práctica Profesional III", "Práctica Profesional IV"]
+  ["", "", "", "", "Práctica Profesional I", "Práctica Profesional II"],
+  ["", "", "", "", "Práctica Profesional III", "Práctica Profesional IV"]
 ];
 
 function renderMalla() {
