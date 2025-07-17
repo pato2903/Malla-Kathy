@@ -106,3 +106,10 @@ button:hover,
   width: 100%;
   height: 100%;
 }
+
+.botones {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  align-items: center;
+}
