@@ -94,7 +94,3 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("importar").addEventListener("change", importarMalla);
 });
 
-document.getElementById("limpiar").addEventListener("click", () => {
-  localStorage.removeItem("mallaEstado");
-  location.reload(); // Recarga la página
-});
