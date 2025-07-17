@@ -95,8 +95,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.getElementById("limpiar").addEventListener("click", () => {
-  if (confirm("¿Estás seguro de que deseas borrar todo el progreso guardado?")) {
-    localStorage.removeItem("estadoMalla");
-    location.reload();
-  }
+  localStorage.removeItem("mallaEstado");
+  location.reload(); // Recarga la página
 });
