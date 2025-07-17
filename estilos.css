@@ -113,3 +113,15 @@ button:hover,
   margin-bottom: 20px;
   align-items: center;
 }
+
+#limpiar {
+  background-color: #d9534f;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+#limpiar:hover {
+  background-color: #c9302c;
+}
