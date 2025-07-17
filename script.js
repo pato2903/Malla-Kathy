@@ -93,3 +93,10 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("exportar").addEventListener("click", exportarMalla);
   document.getElementById("importar").addEventListener("change", importarMalla);
 });
+
+document.getElementById("limpiar").addEventListener("click", () => {
+  if (confirm("¿Estás seguro de que deseas borrar todo el progreso guardado?")) {
+    localStorage.removeItem("estadoMalla");
+    location.reload();
+  }
+});
